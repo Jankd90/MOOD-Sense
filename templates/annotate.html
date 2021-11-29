@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="static/semantic.min.css">
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="static/semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js"></script>
+  <style type="text/css">
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 10px;
+      border-radius: 5px;
+      background: green;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+      margin: 1rem;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 25px;
+      background: #000000;
+      cursor: pointer;
+    }
+
+    body {
+      padding: 1rem;
+    }
+
+    .title {
+      text-align: center;
+    }
+
+    .holder {
+      background-color: #4c474c;
+      background-image: -webkit-gradient(linear, left bottom, left top, from(#4c474c), to(#141414));
+      background-image: -o-linear-gradient(bottom, #4c474c 0%, #141414 100%);
+      background-image: linear-gradient(0deg, #4c474c 0%, #141414 100%);
+      border-radius: 50px;
+    }
+
+    [data-role="controls"]>button {
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+      margin: 1rem;
+      outline: none;
+      display: block;
+      border: none;
+      background-color: #D9AFD9;
+      background-image: -webkit-gradient(linear, left bottom, left top, from(#D9AFD9), to(#97D9E1));
+      background-image: -o-linear-gradient(bottom, #D9AFD9 0%, #97D9E1 100%);
+      background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      text-indent: -1000em;
+      cursor: pointer;
+      -webkit-box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.3) inset,
+        0px 0px 0px 30px #fff, 0px 0px 0px 35px #333;
+      box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.3) inset,
+        0px 0px 0px 5px #fff, 0px 0px 0px 10px #333;
+    }
+
+    [data-role="controls"]>button:hover {
+      background-color: #ee7bee;
+      background-image: -webkit-gradient(linear, left bottom, left top, from(#ee7bee), to(#6fe1f5));
+      background-image: -o-linear-gradient(bottom, #ee7bee 0%, #6fe1f5 100%);
+      background-image: linear-gradient(0deg, #ee7bee 0%, #6fe1f5 100%);
+    }
+
+    [data-role="controls"]>button[data-recording="true"] {
+      background-color: #ff2038;
+      background-image: -webkit-gradient(linear, left bottom, left top, from(#ff2038), to(#b30003));
+      background-image: -o-linear-gradient(bottom, #ff2038 0%, #b30003 100%);
+      background-image: linear-gradient(0deg, #ff2038 0%, #b30003 100%);
+    }
+
+    [data-role="recordings"]>.row {
+      width: auto;
+      height: auto;
+      padding: 10px;
+    }
+
+    [data-role="recordings"]>.row>audio {
+      outline: none;
+    }
+
+    [data-role="recordings"]>.row>a {
+      display: inline-block;
+      text-align: center;
+      font-size: 20px;
+      line-height: 50px;
+      vertical-align: middle;
+      width: 50px;
+      height: 50px;
+      border-radius: 20px;
+      color: #fff;
+      font-weight: bold;
+      text-decoration: underline;
+      background-color: #0093E9;
+      background-image: -webkit-gradient(linear, left bottom, left top, from(#0093E9), to(#80D0C7));
+      background-image: -o-linear-gradient(bottom, #0093E9 0%, #80D0C7 100%);
+      background-image: linear-gradient(0deg, #0093E9 0%, #80D0C7 100%);
+      float: right;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+
+    [data-role="recordings"]>.row>a:hover {
+      text-decoration: none;
+    }
+
+    [data-role="recordings"]>.row>a:active {
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#0093E9), to(#80D0C7));
+      background-image: -o-linear-gradient(top, #0093E9 0%, #80D0C7 100%);
+      background-image: linear-gradient(180deg, #0093E9 0%, #80D0C7 100%);
+    }
+
+    .ui.button {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+
+  <script src="https://stephino.github.io/dist/recorder.js"></script>
+  <script>
+    function changeColor(btn) {
+      console.log(btn.value);
+      btn.classList.add("green");
+    }
+
+
+    function changeRange(btn) {
+
+      let pers = ['0%', '33.3333%', '66.6667%', '100%'];
+      let colors = ['green', 'yellow', 'orange', 'red'];
+      let val = btn.value;
+
+      btn.style.background = colors[btn.value];
+      console.log(btn.value);
+      httpGetAsync(`{{hostname}}post?button=${colors[btn.value]}`);
+    }
+
+    let activityList = ["actie", "activiteit", "geluid", "beweging", "gebeurtenis", "locatie"];
+
+    function change(btn) {
+
+      if (!btn.value) {
+        btn.value = 0;
+      }
+      for (let i = 0; i < activityList.length; i++) {
+        if (btn.parentElement.id == activityList[i]) {
+          console.log(btn.parentElement.children);
+          for (let j = 0; j < btn.parentElement.children.length; j++) {
+            if (btn.parentElement.children[j] == btn) {
+              if (btn.value == 0) {
+                btn.classList.add("active");
+                btn.classList.add("green");
+                btn.value = 1;
+              }
+              else {
+                btn.classList.remove("active");
+                btn.classList.remove("green");
+                btn.value = 0;
+              }
+            }
+            else {
+              btn.parentElement.children[j].classList.remove("active");
+              btn.parentElement.children[j].classList.remove("green");
+              if (btn.parentElement.children[j].value == 1) {
+                btn.parentElement.children[j].value = 0;
+              }
+            }
+          }
+        }
+      }
+      httpGetAsync(`{{hostname}}post?button=${btn.id}`);
+    }
+
+    function httpGetAsync(url) {
+
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+          console.log(xmlHttp.responseText);
+      }
+      xmlHttp.open("GET", url, true); // true for asynchronous 
+      xmlHttp.send(null);
+    }
+  </script>
+
+  <script>
+    function sendData(blob) {
+
+
+
+      var oReq = new XMLHttpRequest();
+      var url = `{{hostname}}recording`
+      oReq.open("POST", url, true);
+      oReq.onload = function (oEvent) {
+        // Uploaded.
+      };
+      oReq.send(blob);
+
+    }
+    jQuery(document).ready(function () {
+      var $ = jQuery;
+      var myRecorder = {
+        objects: {
+          context: null,
+          stream: null,
+          recorder: null
+        },
+        init: function () {
+          if (null === myRecorder.objects.context) {
+            myRecorder.objects.context = new (
+              window.AudioContext || window.webkitAudioContext
+            );
+          }
+        },
+        start: function () {
+          var options = { audio: true, video: false };
+          navigator.mediaDevices.getUserMedia(options).then(function (stream) {
+            myRecorder.objects.stream = stream;
+            myRecorder.objects.recorder = new Recorder(
+              myRecorder.objects.context.createMediaStreamSource(stream),
+              { numChannels: 1 }
+            );
+            myRecorder.objects.recorder.record();
+          }).catch(function (err) { });
+        },
+        stop: function (listObject) {
+          if (null !== myRecorder.objects.stream) {
+            myRecorder.objects.stream.getAudioTracks()[0].stop();
+          }
+          if (null !== myRecorder.objects.recorder) {
+            myRecorder.objects.recorder.stop();
+
+            // Validate object
+            if (null !== listObject
+              && 'object' === typeof listObject
+              && listObject.length > 0) {
+              // Export the WAV file
+              myRecorder.objects.recorder.exportWAV(function (blob) {
+                var url = (window.URL || window.webkitURL)
+                  .createObjectURL(blob);
+                sendData(blob);
+
+              });
+            }
+          }
+        }
+      };
+
+      // Prepare the recordings list
+      var listObject = $('[data-role="recordings"]');
+
+      // Prepare the record button
+      $('[data-role="controls"] > button').click(function () {
+        // Initialize the recorder
+        myRecorder.init();
+
+        // Get the button state 
+        var buttonState = !!$(this).attr('data-recording');
+
+        // Toggle
+        if (!buttonState) {
+          $(this).attr('data-recording', 'true');
+          myRecorder.start();
+        } else {
+          $(this).attr('data-recording', '');
+          myRecorder.stop(listObject);
+        }
+      });
+    });
+
+
+  </script>
+
+
+</head>
+
+<body>
+
+  <div class="ui two column centered grid">
+
+    <div class="column">
+      <input class="slider" type="range" min="0" max="3" value="0" onchange="changeRange(this)">
+
+      <div class="title">Agitatie niveau</div>
+    </div>
+  </div>
+
+
+  <div class="ui grid">
+    <div class="three column row">
+
+      <div class="column">
+        <div class="ui vertical fluid accordion menu">
+          <div class="item">
+            <a class="active title">
+              <i class="dropdown icon"></i>
+              Locatie
+            </a>
+            <div id="locatie" class="active content">
+              <button class="ui button " value="0" id="1" onclick="change(this)">Woonkamer</button>
+              <button class="ui button " value="0" id="2" onclick="change(this)">Gang</button>
+              <button class="ui button " value="0" id="3" onclick="change(this)">Buiten</button>
+              <button class="ui button " value="0" id="4" onclick="change(this)">Slaapkamer</button>
+              <button class="ui button " value="0" id="5" onclick="change(this)">Badkamer</button>
+              <button class="ui button " value="0" id="106" onclick="change(this)">Anders</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui vertical fluid accordion menu">
+          <div class="item">
+            <a class="active title">
+              <i class="dropdown icon"></i>
+              Actie
+            </a>
+            <div id="actie" class="active content">
+              <button class="ui button " value="0" id="6" onclick="change(this)">Zitten</button>
+              <button class="ui button " value="0" id="7" onclick="change(this)">Staan</button>
+              <button class="ui button " value="0" id="8" onclick="change(this)">Liggen</button>
+              <button class="ui button " value="0" id="9" onclick="change(this)">Lopen</button>
+              <button class="ui button " value="0" id="10" onclick="change(this)">Traplopen</button>
+              <button class="ui button " value="0" id="211" onclick="change(this)">Anders</button>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="column">
+
+        <div class="ui vertical fluid accordion menu">
+          <div class="item">
+            <a class="active title">
+              <i class="dropdown icon"></i>
+              Activiteit (ADL)
+            </a>
+            <div id="activiteit" class="active content">
+              <button class="ui button " value="0" id="11" onclick="change(this)">Eten</button>
+              <button class="ui button " value="0" id="12" onclick="change(this)">Slapen</button>
+              <button class="ui button " value="0" id="13" onclick="change(this)">Dommelen/suffen</button>
+              <button class="ui button " value="0" id="14" onclick="change(this)">Sociale interactie</button>
+              <button class="ui button " value="0" id="15" onclick="change(this)">Verzorging</button>
+              <button class="ui button " value="0" id="16" onclick="change(this)">Drinken</button>
+              <button class="ui button " value="0" id="17" onclick="change(this)">Object begruiken</button>
+              <button class="ui button " value="0" id="18" onclick="change(this)">Toiletgang</button>
+              <button class="ui button " value="0" id="319" onclick="change(this)">Anders</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="three column row" style="margin-top:0.5rem;">
+
+      <div class="column">
+
+        <div class="ui vertical fluid accordion menu">
+          <div class="item">
+            <a class="active title">
+              <i class="dropdown icon"></i>
+              Geluid
+            </a>
+            <div id="geluid" class="active content">
+              <button class="ui button" value="0" id="19" onclick="change(this)">Schreeuwen</button>
+              <button class="ui button" value="0" id="20" onclick="change(this)">Lachen</button>
+              <button class="ui button" value="0" id="21" onclick="change(this)">Zingen</button>
+              <button class="ui button" value="0" id="22" onclick="change(this)">Huilen</button>
+              <button class="ui button" value="0" id="23" onclick="change(this)">Herhaaldelijke woorden</button>
+              <button class="ui button" value="0" id="424" onclick="change(this)">Anders</button>
+          
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+
+        <div class="ui vertical fluid accordion menu">
+          <div class="item">
+            <a class="active title">
+              <i class="dropdown icon"></i>
+              Beweging
+            </a>
+            <div id="beweging" class="active content">
+              <button class="ui button" value="0" id="24" onclick="change(this)">Klappen</button>
+              <button class="ui button" value="0" id="25" onclick="change(this)">Wrijven</button>
+              <button class="ui button" value="0" id="26" onclick="change(this)">Tikken</button>
+              <button class="ui button" value="0" id="27" onclick="change(this)">Schommelen</button>
+              <button class="ui button" value="0" id="28" onclick="change(this)">Aan/uitkleden</button>
+              <button class="ui button" value="0" id="29" onclick="change(this)">Slaan/Duwen</button>
+              <button class="ui button" value="0" id="30" onclick="change(this)">Schoppen</button>
+              <button class="ui button" value="0" id="31" onclick="change(this)">Schudden</button>
+              <button class="ui button" value="0" id="32" onclick="change(this)">Plukken</button>
+              <button class="ui button" value="0" id="533" onclick="change(this)">Anders</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+
+        <div class="ui vertical fluid accordion menu">
+          <div class="item">
+            <a class="active title">
+              <i class="dropdown icon"></i>
+              Gebeurtenis
+            </a>
+            <div id="gebeurtenis" class="active content">
+              <button class="ui button" value="0" id="33" onclick="change(this)">Iemand komt binnen</button>
+              <button class="ui button" value="0" id="34" onclick="change(this)">Iemand gaat weg</button>
+              <button class="ui button" value="0" id="35" onclick="change(this)">Tv/radio aan</button>
+              <button class="ui button" value="0" id="36" onclick="change(this)">Tv/radio uit</button>
+              <button class="ui button" value="0" id="37" onclick="change(this)">Hard geluid</button>
+              <button class="ui button" value="0" id="38" onclick="change(this)">gedrag van een andere bewoner
+                veranderd</button>
+              <button class="ui button" value="0" id="639" onclick="change(this)">Anders</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+  <div data-role="controls">
+    <button>Record</button>
+  </div>
+  <div data-role="recordings"></div>
+
+</body>
+
+<script>$('.ui.accordion')
+    .accordion()
+    ;
+
+</script>
