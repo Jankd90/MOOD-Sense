@@ -35,7 +35,7 @@ def post():
     #dt_object = datetime.fromtimestamp(timestamp)
     json_body = [
     {
-        "measurement": "annotation",
+        "measurement": "annotation-{}".format(request.remote_addr),
         "tags": {
             "host": "server01",
             "region": "assen"

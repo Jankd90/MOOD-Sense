@@ -1,6 +1,8 @@
+<img src="icon.png" align="right" />
+
 # MOOD Sense
 
-In this repo you can find all the building blocks for setting up monitoring with environmental sensors and starting an annotation app. 
+> In this repo you can find all the building blocks for setting up monitoring with environmental sensors and starting an annotation app. 
 
 ## Prerequisits to start the project:
 
