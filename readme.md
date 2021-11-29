@@ -1,4 +1,4 @@
-<img src="icon.png" align="right" />
+<img src="icon.png" align="right"  style="height:2rem;"/>
 
 # MOOD Sense
 
