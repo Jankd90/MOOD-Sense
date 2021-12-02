@@ -61,5 +61,5 @@ def record():
     return f'Hello!'
 
 if __name__ == '__main__':
-    #app.run('0.0.0.0', debug=True, port=8100, ssl_context=('server.crt', 'server.key'))
-    app.run('0.0.0.0', debug=True, port=8100, ssl_context=('host.cert', 'host.key'))
+    app.run('0.0.0.0', debug=True, port=8100, ssl_context=('server.crt', 'server.key'))
+    #app.run('0.0.0.0', debug=True, port=8100, ssl_context=('host.cert', 'host.key'))
