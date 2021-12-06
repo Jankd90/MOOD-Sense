@@ -84,9 +84,11 @@ p = btle.Peripheral(addr)
 p_delegate = MyDelegate(addr)
 p.withDelegate(p_delegate)
 setup_notifications(p)
+print("connected")
 
 def reestablish_connection():
     p.connect(addr)
+    print("reconnected")
     setup_notifications(p)
 
 while True:
