@@ -4,7 +4,7 @@ from influxdb import InfluxDBClient
 import time
 import sys
 
-addr = '08:1d:54:03:89:70'
+addr = '9b:01:7d:d5:6f:12'
 CHARACTERISTIC_UUID = "19b10012-e8f2-537e-4f6c-d104768a1214"
 char_uuid = "19b10012-e8f2-537e-4f6c-d104768a1214"
 char_uuid2 = "19b10013-e8f2-537e-4f6c-d104768a1214" 
