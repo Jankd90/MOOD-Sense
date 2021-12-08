@@ -71,32 +71,12 @@ class MyDelegate(btle.DefaultDelegate):
                     adr = "{0}:{1}".format(addr_var[ii],cHandle) 
                     value = int.from_bytes(data, byteorder=sys.byteorder)
                     self.write_to_db(adr, value)
-                
-                
-                
-                
-              #  try:
-                    #data_decoded = struct.unpack("b",data)
-                    #perif_global[ii].writeCharacteristic(cHandle,struct.pack("b",55))
-                #print("Address: "+addr_var[ii])
-                    #print(data_decoded)
-              #      return
-              #  except:                    
-              #      pass
-              #  try:
-                    #data_decoded = data.decode('utf-8')
-                    #perif_global[ii].writeCharacteristic(cHandle,struct.pack("b",55))
-             #       print("Address: "+addr_var[ii])
-                    #print(data_decoded)
-              #      return
-               # except:
-                #    return
 
     
 def perif_loop(perif,indx):
     while True:
         try:
-            if perif.waitForNotifications(1):
+            if perif.waitForNotifications(10):
                 #print("waiting for notifications...")
                 continue
         except:
@@ -156,14 +136,15 @@ def establish_connection(addr):
             for jj in range(len(addr_var)):
                 if addr_var[jj]==addr:
                     print("Attempting to connect with "+addr+" at index: "+str(jj))
-                    p = btle.Peripheral(addr)
-                    perif_global[jj] = p
-                    p_delegate = MyDelegate(addr)
-                    delegate_global[jj] = p_delegate
-                    p.withDelegate(p_delegate)
-                    print("Connected to "+addr+" at index: "+str(jj))
-                    setup_notifications(p)
-                    perif_loop(p,jj)
+                    try:
+                        p = btle.Peripheral(addr)
+                        perif_global[jj] = p
+                        p_delegate = MyDelegate(addr)
+                        delegate_global[jj] = p_delegate
+                        p.withDelegate(p_delegate)
+                        print("Connected to "+addr+" at index: "+str(jj))
+                        setup_notifications(p)
+                        perif_loop(p,jj)
         except:
             print("failed to connect to "+addr)
             continue

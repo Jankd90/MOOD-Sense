@@ -3,8 +3,10 @@ import struct
 from influxdb import InfluxDBClient
 import time
 import sys
+import os
+import sys
 
-addr = '9b:01:7d:d5:6f:12'
+addr = '76:3f:d6:62:63:d8'
 CHARACTERISTIC_UUID = "19b10012-e8f2-537e-4f6c-d104768a1214"
 char_uuid = "19b10012-e8f2-537e-4f6c-d104768a1214"
 char_uuid2 = "19b10013-e8f2-537e-4f6c-d104768a1214" 
@@ -140,13 +142,19 @@ def read_values():
     
 
 def reestablish_connection():
-   while True:
+    i = 0
+    while True:
         try:
             p.connect(addr)
             print("reconnected")
             return
         except:
             print("couldn't reconnect")
+            time.sleep(3)
+            i = i + 1
+            if(i > 5):
+                print("restarting")
+                os.execl(sys.executable, sys.executable, *sys.argv)
             continue
    
   
