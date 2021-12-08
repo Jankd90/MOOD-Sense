@@ -1,10 +1,8 @@
 from bluepy import btle
-import struct
 from influxdb import InfluxDBClient
 import time
 import sys
 import os
-import sys
 
 addr = '76:3f:d6:62:63:d8'
 CHARACTERISTIC_UUID = "19b10012-e8f2-537e-4f6c-d104768a1214"
@@ -152,8 +150,9 @@ def reestablish_connection():
             print("couldn't reconnect")
             time.sleep(3)
             i = i + 1
-            if(i > 5):
+            if(i > 100):
                 print("restarting")
+                p.disconnect()
                 os.execl(sys.executable, sys.executable, *sys.argv)
             continue
    
