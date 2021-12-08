@@ -150,7 +150,7 @@ def reestablish_connection():
             print("couldn't reconnect")
             time.sleep(3)
             i = i + 1
-            if(i > 100):
+            if(i > 10):
                 print("restarting")
                 p.disconnect()
                 os.execl(sys.executable, sys.executable, *sys.argv)
